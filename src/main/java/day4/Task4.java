@@ -18,16 +18,18 @@ public class Task4 {
         System.out.println(" ");
 
         for(int i = 0; i < ar.length-2; i++) {
-            sum += ar[i];
-            sum += ar[i+1] ;
-            sum += ar[i+2];
+            int[] temp1 = new int[3];
+            int count = 0;
+            for(int j = i; j <= i + 2; j++){
+                sum += ar[j];
+                temp1[count] = ar[j];
+                count++;
                 if(maxSum < sum){
                     maxSum = sum;
-                    indexLine = i+1;
-                    temp[0] = ar[i] ;
-                    temp[1] = ar[i+1];
-                    temp[2] = ar[i+2];
+                    indexLine = i + 1;
+                    temp  = temp1.clone();
                 }
+            }
                 sum = 0;
         }
         System.out.println("Тройка с максимальной суммой: " + Arrays.toString(temp));
