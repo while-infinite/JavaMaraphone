@@ -7,17 +7,31 @@ public class Task4 {
 
         Scanner in = new Scanner(System.in);
         double x = in.nextDouble();
-        double y =0;
         double p = Math.pow(x,2);
+        double y = 0;
+        double condition1 = 0;
+        double condition2 = 0;
+        double condition3 = 0;
 
-        if(x>=5){
-            y = (p - 10) / (x + 7);
-            System.out.println("x >= 5. y = " + y);
+
+
+            if (x >= 5) {
+                condition1 = (p - 10) / (x + 7);
+                y = condition1;
+            }
+            if (x < 5 && x > -3) {
+                condition2 = (x + 3) * (p - 2);
+                y = condition2;
+            }
+            if (condition1 == 0 && condition2 == 0){
+                condition3 = 420;
+                y = condition3;
+            }
+        System.out.println(y);
+
         }
-        if(x <= 5 && x >= -3){
-            y = (x + 3) * (p - 2);
-            System.out.println("-3 <= x <= 5. y = " + y);
-        }
-        else y = 420;
+
+
+
     }
-}
+
