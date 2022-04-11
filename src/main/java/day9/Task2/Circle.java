@@ -1,9 +1,9 @@
 package day9.Task2;
 
 public class Circle extends Figure {
-    private int circleRadius;
+    private double circleRadius;
 
-    public Circle(int circleRadius, String color ) {
+    public Circle(double circleRadius, String color ) {
         super(color);
         this.circleRadius = circleRadius;
     }

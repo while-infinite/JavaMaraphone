@@ -16,17 +16,16 @@ public class Task4 {
 
 
             if (x >= 5) {
-                condition1 = (p - 10) / (x + 7);
-                y = condition1;
+                y = (p - 10) / (x + 7);
+                condition1 = y;
             }
             if (x < 5 && x > -3) {
-                condition2 = (x + 3) * (p - 2);
-                y = condition2;
+                y = (x + 3) * (p - 2);
+                condition2 = y;
             }
-            if (condition1 == 0 && condition2 == 0){
-                condition3 = 420;
-                y = condition3;
-            }
+            if (condition1 == 0 && condition2 == 0)
+                y = 420;
+
         System.out.println(y);
 
         }
