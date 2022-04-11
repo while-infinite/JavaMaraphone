@@ -35,7 +35,6 @@ public class TestFigures {
                 new Circle(10, "Red"),
                 new Circle(5, "Blue")
 
-
         };
 
         System.out.println(calculateRedPerimeter(figures));
