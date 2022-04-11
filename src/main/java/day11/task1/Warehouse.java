@@ -9,7 +9,7 @@ public class Warehouse {
         return countDeliveredOrder;
     }
 
-    public void setCountPickedOrders() {
+    public void incrementCountPickedOrders() {
         if (countPickedOrders == 10000)                 //при лостижении 10000 собранных заказов обнуляем переменную для новой итерации и последующей выплаты бонусов
             countPickedOrders = 0;
         countPickedOrders++;
@@ -19,7 +19,7 @@ public class Warehouse {
         return countPickedOrders;
     }
 
-    public void setCountDeliveredOrders() {
+    public void incrementCountDeliveredOrders() {
         if (countDeliveredOrder == 10000)                //при лостижении 10000 доставленных заказов обнуляем переменную для новой итерации и последующей выплаты бонусов
             countDeliveredOrder = 0;
         countDeliveredOrder++;

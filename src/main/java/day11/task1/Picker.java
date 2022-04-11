@@ -1,12 +1,11 @@
 package day11.task1;
 
 public class Picker implements Worker {
-    private final int eachWork = 80;                    // ЗП за каждый заказ
-    private final int bonus = 70000;
+    private final int EACHWORK = 80;                    // ЗП за каждый заказ
+    private final int BONUS = 70000;
     private int salary = 0;
-    private int shareOfOrders = 0;                      //доля собранных заказов из 100000
-    private String isPayed = "no";
-    Warehouse warehouse;
+    private boolean isPayed = false;
+    private Warehouse warehouse;
 
     public Picker(Warehouse warehouse) {
         this.warehouse = warehouse;
@@ -16,7 +15,7 @@ public class Picker implements Worker {
         return this.salary;
     }
 
-    public String getIsPayed() {
+    public boolean getIsPayed() {
         return this.isPayed;
     }
 
@@ -30,19 +29,18 @@ public class Picker implements Worker {
 
     @Override
     public void doWork() {
-        this.salary += this.eachWork;
-        warehouse.setCountPickedOrders();               //инкрементируется на +1 общее кол-во собранных заказов в поле countPickedOrders
-        this.shareOfOrders++;                           //инкрементируется на +1 кол-во заказов собранных одним сотрудником
+        this.salary += this.EACHWORK;
+        warehouse.incrementCountPickedOrders();               //инкрементируется на +1 общее кол-во собранных заказов в поле countPickedOrder
     }
 
     @Override
     public void bonus() {
-        if (this.isPayed.equals("yes"))
+        if (this.isPayed)
             System.out.println("Бонус уже выплачен");
         else {
             if (warehouse.getCountPickedOrders() == 10000) {                  //при достижениие собранных заказов - 10000
-                    this.salary += (this.shareOfOrders / 10000) * this.bonus; //если несколько сотрудников, то расчитывается доля заказов из 10000 выполненных данным сотррудником
-                    this.isPayed = "yes";                                     //если один сотрудник, то он получает полный бонус за все 10000 заказов
+                    this.salary +=  this.BONUS;
+                    this.isPayed = true;                                     //сотрудник получает полный бонус за все 10000 заказов
             }
             if (warehouse.getCountPickedOrders() < 10000)
                 System.out.println("Бонус пока не доступен");

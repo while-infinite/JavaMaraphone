@@ -1,16 +1,13 @@
 package day11.task2;
 
 public class Paladin extends Hero implements PhysAttack, Healer{
-    private final int MAX_HEALTH = 100;
-    private final int MIN_HEALTH = 0;
-    private double health;
     private double physDef;
     private double magicDef;
     private int    physAtt;
     private int    magicAtt;
 
     public Paladin(){
-        this.health = 100;
+        super(100);
         this.physDef = 50;
         this.magicDef = 20;
         this.physAtt = 15;
@@ -18,13 +15,6 @@ public class Paladin extends Hero implements PhysAttack, Healer{
 
     }
 
-    @Override
-    public void setHealth(int health) {
-        this.health += health;
-        if(this.health > MAX_HEALTH)
-            this.health = MAX_HEALTH;
-
-    }
 
     @Override
     public void PhysDef(int attack) {
@@ -40,11 +30,6 @@ public class Paladin extends Hero implements PhysAttack, Healer{
         if(this.health < MIN_HEALTH)
             this.health = MIN_HEALTH;
 
-    }
-
-    @Override
-    public void getHealth() {
-        System.out.println("health = " + this.health);
     }
 
 
