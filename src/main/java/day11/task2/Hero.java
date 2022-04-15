@@ -1,6 +1,6 @@
 package day11.task2;
 
-public abstract class Hero {
+public abstract class  Hero {
    public final int MAX_HEALTH = 100;
    public final int MIN_HEALTH = 0;
    protected double health;
@@ -10,9 +10,12 @@ public abstract class Hero {
    }
 
    public void setHealth(double health){
-      this.health += health;
-      if(this.health > MAX_HEALTH)
-         this.health = MAX_HEALTH;
+      double remainHealth = MAX_HEALTH - this.health;
+      if(remainHealth - health < 0 ) {
+         health -= remainHealth % health;
+         this.health += remainHealth;
+      }
+      else this.health += health;
    }
 
    public void getHealth(){

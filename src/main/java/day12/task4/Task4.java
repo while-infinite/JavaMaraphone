@@ -11,8 +11,8 @@ public class Task4 {
         members1.add("Daron Malakian");
         members1.add("Shavo Odajian");
 
-        List<MusicBand> Band1 = new ArrayList<>();
-        Band1.add(new MusicBand("System of a down", 1992, members1));
+        List<MusicBand> band1 = new ArrayList<>();
+        band1.add(new MusicBand("System of a down", 1992, members1));
 
 
         List<String> members2 = new ArrayList<>();
@@ -20,18 +20,18 @@ public class Task4 {
         members2.add("Jon Dolamian");
 
 
-        List<MusicBand> Band2 = new ArrayList<>();
-        Band2.add(new MusicBand("SOAD", 1992, members2));
+        List<MusicBand> band2 = new ArrayList<>();
+        band2.add(new MusicBand("SOAD", 1992, members2));
 
-        MusicBand.transferMembers(Band1.get(0), Band2.get(0));
+        MusicBand.transferMembers(band1.get(0), band2.get(0));
 
 
-        for (String list : Band2.get(0).getMembers()) {
+        for (String list : band2.get(0).getMembers()) {
             System.out.println(list);
         }
         System.out.println('\n');
 
-        for (String list : Band1.get(0).getMembers()) {
+        for (String list : band1.get(0).getMembers()) {
             System.out.println(list);
         }
 
