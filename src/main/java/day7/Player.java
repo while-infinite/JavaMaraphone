@@ -8,10 +8,10 @@ public class Player {
     public static int countPlayers = 0;
 
     public Player(int stamina) {
-        if (countPlayers < 6) {
+        if (countPlayers < 6)
             countPlayers++;
-            this.stamina = stamina;
-        }
+        this.stamina = stamina;
+
     }
 
     public int getStamina() {
