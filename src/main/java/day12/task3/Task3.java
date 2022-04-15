@@ -7,16 +7,10 @@ import java.util.List;
 public class Task3 {
     public static List<MusicBand> groupsAfter2000(List<MusicBand> mus) {
         List<MusicBand> sortMus = new ArrayList<>();
-        sortMus.addAll(mus);
-        for (int i = 0; i < mus.size(); i++) {
-            for (int j = 0; j < sortMus.size(); j++) {
-                int temp = sortMus.get(j).getYear();
-                if (temp < 2000) {
-                    sortMus.remove(j);
-                    break;
-                }
-            }
-        }
+
+        for (int i = 0; i < mus.size(); i++)
+                if (mus.get(i).getYear() > 2000)
+                    sortMus.add(mus.get(i));
         return sortMus;
     }
 
@@ -35,8 +29,8 @@ public class Task3 {
 
         Collections.shuffle(mus);
 
-        List<MusicBand> sortMus = new ArrayList<>();
-        sortMus.addAll(groupsAfter2000(mus));
+        List<MusicBand> sortMus = groupsAfter2000(mus);
+
 
         for (MusicBand list : mus) {
             System.out.println(list);

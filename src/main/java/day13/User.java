@@ -5,11 +5,11 @@ import java.util.List;
 
 public class User {
     private String username;
-    private List<User> subscription = new ArrayList<>();
+    private List<User> subscription;
 
     public User(String username){
         this.username = username;
-        List<User> subscription = new ArrayList<>();
+        subscription = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -19,24 +19,17 @@ public class User {
     public List<User> getSubscriptions() {
         return subscription;
     }
+
     public void subscribe(User user){
-        subscription.add(user);
+        this.subscription.add(user);
     }
 
     public boolean isSubscribed(User user){
-        for (User value : subscription) {
-            String s = value.getUsername();
-            return s.equals(user.getUsername());
-        }
-        return false;
+        return this.subscription.contains(user);
     }
 
     public boolean isFriend(User user){
-        for (User value : user.getSubscriptions()) {
-            String s = value.getUsername();
-            return s.equals(this.username);
-        }
-        return false;
+        return user.isSubscribed(this);
     }
     public void sendMessage(User user, String text){
         MessageDatabase.addNewMessage(this, user, text);

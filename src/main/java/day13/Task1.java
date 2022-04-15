@@ -6,6 +6,11 @@ public class Task1 {
         User user2 = new User("Саша");
         User user3 = new User("Маша");
 
+        user1.subscribe(user3);
+        for (User list : user1.getSubscriptions()) {
+            System.out.println(list);
+        }
+
         user1.sendMessage(user2, "Привет, Саша!");
         user1.sendMessage(user2, "Как прошли твои экзамены?");
         user2.sendMessage(user1, "Привет, Андрей!");
