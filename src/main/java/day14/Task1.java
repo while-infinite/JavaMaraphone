@@ -20,7 +20,7 @@ public class Task1 {
             }
 
             String[] s = line.split(" ");
-            int[] numbers = new int[10];
+            int[] numbers = new int[s.length];
 
             for (int i = 0; i < s.length; i++) {
                 String temp = s[i];
