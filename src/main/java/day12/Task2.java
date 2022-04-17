@@ -25,11 +25,13 @@ public class Task2 {
 
         System.out.println('\n');
         List<Integer> evenList = new ArrayList<>();
-        List<Integer> evenList2 = new ArrayList<>();
-        List<Integer> resultList = sortNum(0,30,evenList);
-        resultList.addAll(sortNum(300,350,evenList2));
+//        List<Integer> evenList2 = new ArrayList<>();
+//        List<Integer> resultList = sortNum(0,30,evenList);
+//        resultList.addAll(sortNum(300,350,evenList2));
+        sortNum(0,30,evenList);
+        sortNum(300,350,evenList);
 
-        for (Integer num : resultList) {
+        for (Integer num : evenList) {
             System.out.print(num + " ");
         }
 

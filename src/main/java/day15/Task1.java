@@ -13,6 +13,7 @@ public class Task1 {
         StringBuilder readFile = new StringBuilder();
         Scanner in = null;
         String[] keepString;
+
         List<String> sortList = new ArrayList<>();
         try {
             in = new Scanner(file);
@@ -22,12 +23,21 @@ public class Task1 {
             System.out.println("Файо не найден");
         }
 
-        keepString = readFile.toString().split(",");
-        for(int i = 0; i < keepString.length; i++){
-            String[] temp = keepString[i].split(";");
-            int tempParseNum = Integer.parseInt(temp[2]);
-            if(tempParseNum == 0)
-                sortList.add(keepString[i]);
+        keepString = readFile.toString().split(",");                        //добавляем в массив конкатинированной строки при помощи разделителя в качестве запятой
+        String[][] formatString = new String[keepString.length][3];               //создаём двумерный массив, что бы доюавить туда элементы из первого массива,
+        for(int i = 0; i < keepString.length; i++) {                              //разделив их при момощи ";". Это нужно для получения нужного формата вывода дынных в конечном файле
+            formatString[i] = keepString[i].split(";");
+        }
+        for(int i = 0; i < formatString.length; i++) {
+            String[] temp = new String[3];                                        //создаём временный массив для записи элементов с двумерного массива,
+            for (int j = 0; j < formatString[i].length; j++) {                    //что бы полусить доступ к последнему числовому элементу двумерно массива, где указано ко-во
+                 temp[j] = formatString[i][j];
+            }
+            int tempParseNum = Integer.parseInt(temp[2]);                         //приводим к числовому типу послений последний элемент временнго массива
+            if (tempParseNum == 0) {                                              //если равняетсья 0
+                String s = temp[0] + ',' + " " + temp[1] + ',' + " " + temp[2];   //конкатинируем элементы массива с запятыми и пробелами для получения нужного формата данных
+                sortList.add(s);
+            }
         }
         assert in != null;
         in.close();
@@ -58,9 +68,5 @@ public class Task1 {
 
         for (String list : sortList)
             System.out.println(list);
-
-        System.out.println('\n');
-        for(String s : readFromFile(writeToFile(exportTXT, sortList)))
-            System.out.println(s);
     }
 }

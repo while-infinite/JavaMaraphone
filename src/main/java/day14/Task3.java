@@ -11,17 +11,17 @@ import org.apache.commons.lang3.math.NumberUtils;
 public class Task3 {
         public static List<Person> parseFileToObjList(File file) throws Exception {
             Scanner in = null;
-            StringBuilder keepString = new StringBuilder();
+            String keepString = "";
             List<Person> person = new ArrayList<>();
 
             try {
                 in = new Scanner(file);
                 while (in.hasNextLine())
-                    keepString.append(in.nextLine() + " ");                   //конкатинируем сроки с пробелами для дальнейшего разделения методом split()
+                    keepString = in.nextLine() + " ";
             } catch (FileNotFoundException e) {
                 System.out.println("Файл не найден");
             }
-            String[] splitString = keepString.toString().split(" ");
+            String[] splitString = keepString.split(" ");
             for (int i = 0; i < splitString.length; i++) {
                 int tempNum = 0;
                 if (NumberUtils.isParsable(splitString[i])) {                   //метод для проверки массива на содержание целочисленных значений.

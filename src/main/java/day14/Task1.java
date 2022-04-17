@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Task1 {
 
-        public static void printSumDigits(File file) throws Exception{
+        public static void printSumDigits(File file){
             Scanner in = null;
             String line = "";
             int count = 0;
@@ -28,16 +28,22 @@ public class Task1 {
                 sum += numbers[i];
                 count++;
             }
-            if (count != 10)
-                throw new Exception("Некорректный входной файл");
-            System.out.println(sum);
+            try {
+
+                if (count != 10)
+                    throw new Exception("Некорректный входной файл");
+                System.out.println(sum);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
             assert in != null;
             in.close();
 
         }
 
-        public static void main(String[] args) throws Exception {
+        public static void main(String[]args){
             File file = new File("text");
             printSumDigits(file);
 
