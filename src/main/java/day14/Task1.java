@@ -15,24 +15,23 @@ public class Task1 {
             try {
                 in = new Scanner(file);
                 line = in.nextLine();
-            } catch (FileNotFoundException e) {
-                System.out.println("Файл не найден");
-            }
 
-            String[] s = line.split(" ");
-            int[] numbers = new int[s.length];
 
-            for (int i = 0; i < s.length; i++) {
-                String temp = s[i];
-                numbers[i] = Integer.parseInt(temp);
-                sum += numbers[i];
-                count++;
-            }
-            try {
+                String[] s = line.split(" ");
+                int[] numbers = new int[s.length];
 
+                for (int i = 0; i < s.length; i++) {
+                    String temp = s[i];
+                    numbers[i] = Integer.parseInt(temp);
+                    sum += numbers[i];
+                    count++;
+                }
                 if (count != 10)
                     throw new Exception("Некорректный входной файл");
                 System.out.println(sum);
+            }
+            catch (FileNotFoundException e) {
+                System.out.println("Файл не найден");
             }
             catch (Exception e) {
                 e.printStackTrace();
