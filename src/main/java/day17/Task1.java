@@ -15,5 +15,6 @@ public class Task1 {
         for (ChessPiece chess : cp) {
             System.out.print(chess.name() + ',' + " ");
         }
+       System.out.println(cp[0].getValue());
     }
 }
