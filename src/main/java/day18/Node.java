@@ -4,31 +4,31 @@ public class Node{
     private int value;
     private Node left;
     private Node right;
-    private Node parents = this;
-    private boolean alreadyVisited = false;          //вводим переменюу что бы определить были на этом узле или нет
-    private Node root;
 
     public Node(int value){
         this.value = value;
     }
 
-    public void AddNode(Node node, int value){
-        if(value < node.value){
-            if(node.left == null) {
-                node.left = new Node(value);
-                node.left.setParents(node);
-                node.left.setRoot(this);           //передаём ссылку на корневой объект
-            }
-            else AddNode(node.left, value);
+    public void AddNode(Node root, int value){
+        if(root == null)
+            throw new IllegalArgumentException("Корневой узел должен ыть не null");
+        Node nextNode = root;
+        Node current = null;
+
+        while(nextNode != null){
+            current = nextNode;
+
+            if(value < current.getValue())
+                nextNode = current.getLeft();
+            else
+                nextNode = current.getRight();
         }
-        else{
-            if(node.right == null) {
-                node.right = new Node(value);
-                node.right.setParents(node);
-                node.right.setRoot(this);          //передаём ссылку на корневой объект
-            }
-            else AddNode(node.right, value);
-        }
+
+        if(value < current.getValue())
+            current.setLeft(new Node(value));
+        else
+            current.setRight(new Node(value));
+
     }
 
     public int getValue() {
@@ -43,27 +43,11 @@ public class Node{
         return right;
     }
 
-    public void setParents(Node parents) {
-        this.parents = parents;
+    public void setLeft(Node left) {
+        this.left = left;
     }
 
-    public Node getParents() {
-        return parents;
-    }
-
-    public void AlreadyVisited(boolean alreadyVisited) {
-        this.alreadyVisited = alreadyVisited;
-    }
-
-    public boolean isAlreadyVisited() {
-        return alreadyVisited;
-    }
-
-    public Node getRoot() {
-        return root;
-    }
-
-    public void setRoot(Node node){
-        root = node;
+    public void setRight(Node right) {
+        this.right = right;
     }
 }
