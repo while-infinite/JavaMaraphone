@@ -65,10 +65,12 @@ public class Task2 {
         for (Map.Entry<Integer, Point> entry : taxi.entrySet()) {
             if(entry.getValue().getX() > point1.getX() && entry.getValue().getY() > point1.getY() &&
                     entry.getValue().getX() < point2.getX() && entry.getValue().getY() < point2.getY()){
+                if ((!entry.getValue().equals(point1) && !entry.getValue().equals(point2)))
                     taxiInRange.put(entry.getKey(), entry.getValue());
             } else {
                 if(entry.getValue().getX() > point2.getX() && entry.getValue().getY() > point2.getY() &&
                         entry.getValue().getX() < point1.getX() && entry.getValue().getY() < point1.getY()) {
+                    if ((!entry.getValue().equals(point1) && !entry.getValue().equals(point2)))
                     taxiInRange.put(entry.getKey(), entry.getValue());
                 }
             }
