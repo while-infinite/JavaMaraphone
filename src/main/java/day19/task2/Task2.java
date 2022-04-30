@@ -47,32 +47,30 @@ public class Task2 {
         File file = new File("src/main/resources/taxi_cars.txt");
         HashMap<Integer, Point> taxi = readFromFile(file);
         HashMap<Integer, Point> taxiInRange = new HashMap<>();
-        int x1 = 0;
-        int x2 = 0;
-        int y1 = 0;
-        int y2 = 0;
         Scanner in = new Scanner(System.in);
         System.out.println("Введите координаты квадарата для поиска машины: x1, y1, x2, y2");
         System.out.print("Координаты x1: ");
-        x1 = in.nextInt();
+        int x1 = in.nextInt();
         System.out.print("Координаты y1: ");
-        y1 = in.nextInt();
+        int y1 = in.nextInt();
         System.out.print("Координаты x2: ");
-        x2 = in.nextInt();
+        int x2 = in.nextInt();
         System.out.print("Координаты y2: ");
-        y2 = in.nextInt();
+        int y2 = in.nextInt();
 
         Point point1 = new Point(x1, y1);
         Point point2 = new Point(x2, y2);
 
 
         for (Map.Entry<Integer, Point> entry : taxi.entrySet()) {
-            if (entry.getValue().hashCode() > point1.hashCode() && (entry.getValue().hashCode() < point2.hashCode())) {
-                if ((!entry.getValue().equals(point1) && !entry.getValue().equals(point2)))
+            if(entry.getValue().getX() > point1.getX() && entry.getValue().getY() > point1.getY() &&
+                    entry.getValue().getX() < point2.getX() && entry.getValue().getY() < point2.getY()){
                     taxiInRange.put(entry.getKey(), entry.getValue());
-            } else if (entry.getValue().hashCode() > point2.hashCode() && (entry.getValue().hashCode() < point1.hashCode())) {
-                if ((!entry.getValue().equals(point1) && !entry.getValue().equals(point2)))
+            } else {
+                if(entry.getValue().getX() > point2.getX() && entry.getValue().getY() > point2.getY() &&
+                        entry.getValue().getX() < point1.getX() && entry.getValue().getY() < point1.getY()) {
                     taxiInRange.put(entry.getKey(), entry.getValue());
+                }
             }
         }
         for (Map.Entry<Integer, Point> entry : taxiInRange.entrySet())

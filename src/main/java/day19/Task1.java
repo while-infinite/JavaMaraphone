@@ -18,23 +18,23 @@ public class Task1 {
         LinkedHashMap<String, Integer> maxRepeat = new LinkedHashMap<>();
         int count = 0;
         int i = 0;
-        Scanner in = null;
         try {
-            in = new Scanner(file).useDelimiter("[><<.,:;()?!\"\\s–>><]+");
+            Scanner in = new Scanner(file).useDelimiter("[><<.,:;()?!\"\\s–>><]+");
             while (in.hasNext()) {
                 hmap.put(i, in.next());
-                i++;
-            }
-            for (int j = 0; j < hmap.size(); j++) {
                 count = 0;
-                if (countOfRepeat.containsKey(hmap.get(j)))                          //проверяем, содержиться ли в объекте countOfRepeat -> "j"-ый элемент объекта hmap
+                if (countOfRepeat.containsKey(hmap.get(i))){                        //проверяем, содержиться ли в объекте countOfRepeat -> "j"-ый элемент объекта hmap
+                    i++;
                     continue;                                                        //если,да, то переходим к следующему элементу
+                }
                 for (Map.Entry<Integer, String> entry : hmap.entrySet())
-                    if (hmap.get(j).equals(entry.getValue())) {                      //проверяем есть ли другие элементы с таким же ключом как в hmap.get(j) в этом же списке
+                    if (hmap.get(i).equals(entry.getValue())) {                      //проверяем есть ли другие элементы с таким же ключом как в hmap.get(j) в этом же списке
                         count++;                                                     //если да да инкреминтируем счётчик
                         countOfRepeat.put(entry.getValue(), count);                  //перезаписываем значение элемента в объекте countOfRepeat
                     }
+                i++;
             }
+
             count = 0;
             while (count < 100) {
                 int maxValue = 0;
@@ -49,14 +49,11 @@ public class Task1 {
                 countOfRepeat.remove(key);                                              //во избежании повторного сравнения с уже проверенным элеменом удаляем его из объекта
                 count++;
             }
-
+            in.close();
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден");
         }
         i = 0;
-        assert in != null;
-        in.close();
-
         for (Map.Entry<String, Integer> entry : maxRepeat.entrySet()) {
             System.out.println(i + " - " + "\"" + entry.getKey() + "\"" + " : " + entry.getValue());
             i++;
