@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Math.random;
 
 public class Battle {
 
-     public static void fight(String[][] player1, String[][] player2){
+     public static void fight(Player p1, Player p2){
         String[][] fieldPlayer1 = new String[10][10];
         String[][] fieldPlayer2 = new String[10][10];
         String[][] currentOpponent;
@@ -27,14 +29,21 @@ public class Battle {
             Arrays.fill(fieldPlayer1[i], " 🟨 ");
             Arrays.fill(fieldPlayer2[i], " 🟨 ");
         }
+         p1.setPlayground( addShips(p1.getPlayground(), "Player1"));
+         System.out.println("--------------------------------------------------------------");
+         System.out.println("\n||\n||\n||\n||\n||\n||\n||\n||\n||            Растояние между полями\n||" +
+                 "           что бы не подсматривали!\n||\n||\n||\n||\n||\n||\n||\n");
+         System.out.println("--------------------------------------------------------------");
+         p2.setPlayground( addShips(p2.getPlayground(), "Player2"));
+
         int firstStep = (int) (Math.random() * 2) + 1;                                          //определяем очерёдность хода
          System.out.println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n");
         System.out.println("Первый ход делает player" + firstStep);
         if(firstStep == 1) {
-            currentOpponent = player2;
+            currentOpponent = p2.getPlayground();
             battleField = fieldPlayer2;
         }else{
-            currentOpponent = player1;
+            currentOpponent = p2.getPlayground();
             battleField = fieldPlayer1;
         }
          for (int i = 0; i < 10; i++)                                                              //отображаем сетку противника для удобства выбора координат
@@ -128,7 +137,7 @@ public class Battle {
                             System.out.print(battleField[i][j]);
                         }
                     }
-                    if(currentOpponent == player2){                                                                            //если текущий игрок является игроком номер 1, то
+                    if(currentOpponent == p2.getPlayground()){                                                                            //если текущий игрок является игроком номер 1, то
                         fieldPlayer2 = battleField;                                                                            //обнавляем поле противника
                         lastPlayer = "player1";
                     }else{                                                                                                     //иначе обнавляем поле игрока номер 2
@@ -147,9 +156,9 @@ public class Battle {
                             System.out.print(battleField[i][j]);
                         }
                     }
-                    if (currentOpponent == player2) {                                                                               //если текущий игрок является игроком номер 1, то
+                    if (currentOpponent == p2.getPlayground()) {                                                                               //если текущий игрок является игроком номер 1, то
                         fieldPlayer2 = battleField;                                                                                 //обнавляем поле потивника
-                        currentOpponent = player1;                                                                                  //передаём управление другому игроку
+                        currentOpponent = p1.getPlayground();                                                                                  //передаём управление другому игроку
                         battleField = fieldPlayer1;                                                                                  //меняем местами поля игроков
                         System.out.println('\n');
                         for (int i = 0; i < 10; i++)                                                                                 //отображаем поле противника
@@ -163,7 +172,7 @@ public class Battle {
                         }
                     } else {                                                                                                           //иначе всё наоборот
                         fieldPlayer1 = battleField;
-                        currentOpponent = player2;
+                        currentOpponent = p2.getPlayground();
                         battleField = fieldPlayer2;
                         System.out.println('\n');
                         for (int i = 0; i < 10; i++)                                                                                   //отображаем поле противника
@@ -177,7 +186,7 @@ public class Battle {
                         }
                     }
                 }
-                if(currentOpponent == player2)                                                                                              //определяем очередность хода
+                if(currentOpponent == p2.getPlayground())                                                                                              //определяем очередность хода
                     nextPlayer = 1;
                 else nextPlayer = 2;
                 System.out.println("");
@@ -194,7 +203,7 @@ public class Battle {
     }
 
 
-    public static String[][] setAura(String[][] player, String shipCor, int shipSize) throws ScannerException {
+    public static void setAura(String[][] player, String shipCor, int shipSize) throws ScannerException {
          int countSize = 0;
          int countCor = 0;
         String[] splitString = shipCor.split(";");
@@ -393,19 +402,18 @@ public class Battle {
             }
         }
 
-        return player;
     }
 
     public static String[][] addShips(String[][] player, String playerNum) {
         Scanner in = new Scanner(System.in);
-        String battleship = "";
+        String battleship;
         String[] cruiser = new String[2];
         String[] destroyer = new String[3];
         String[] boat = new String[4];
-        String error = null;
+        String error;
+
 
         System.out.println("Начнём расставлять корабли на поле " + playerNum);
-        String[][] showBattleship = new String[10][10];
         for (int i = 0; i < 10; i++)
             System.out.printf("  %d ", i);
         for (int i = 0; i < player.length; i++) {
@@ -421,7 +429,13 @@ public class Battle {
             try{
                 System.out.println("Введи координаты четырёхпалубного корабля (формат: x,y;x,y;x,y;x,y)");
                 battleship = in.nextLine();
-                showBattleship = setAura(player, battleship, 4);
+                Pattern pattern = Pattern.compile("^([0-9])(,)([0-9])(;)([0-9])(,)([0-9])(;)([0-9])(,)([0-9])(;)([0-9])(,)([0-9])");
+                Matcher match = pattern.matcher(battleship);
+                boolean found = match.matches();
+                if(!found)
+                    throw new ScannerException("6");
+
+                setAura(player, battleship, 4);
                } catch (ScannerException e) {
                 switch (e.getDescription()) {
                     case "1":
@@ -444,6 +458,10 @@ public class Battle {
                         System.out.println("Вы ввели неверное колличесвто координат, повторите ввод");
                         error = "1";
                         break;
+                    case "6":
+                        System.out.println("Неверный формат ввода данных, повторите ввод");
+                        error = "1";
+                        break;
                     default:
                         System.out.println("Неизвестная ошибка ввода данных");
                         error = "1";
@@ -453,24 +471,29 @@ public class Battle {
         }while (error != null);
             for (int i = 0; i < 10; i++)
                 System.out.printf("  %d ", i);
-            for (int i = 0; i < showBattleship.length; i++) {
+            for (int i = 0; i < player.length; i++) {
                 System.out.println();
                 System.out.print(i);
-                for (int j = 0; j < showBattleship[i].length; j++) {
-                    System.out.print(showBattleship[i][j]);
+                for (int j = 0; j < player[i].length; j++) {
+                    System.out.print(player[i][j]);
                 }
             }
             System.out.println();
 
 
-        String[][] showCruiser = new String[10][10];
         for (int i = 0; i < cruiser.length; i++) {
             do {
                 error = null;
                 try {
                     System.out.println("Введи координаты " + (i + 1) + "-го трёхпалубного корабля (формат: x,y;x,y;x,y)");
                     cruiser[i] = in.nextLine();
-                    showCruiser = setAura(player, cruiser[i], 3);
+                    Pattern pattern = Pattern.compile("^([0-9])(,)([0-9])(;)([0-9])(,)([0-9])(;)([0-9])(,)([0-9])");
+                    Matcher match = pattern.matcher(cruiser[i]);
+                    boolean found = match.matches();
+                    if(!found)
+                        throw new ScannerException("6");
+
+                    setAura(player, cruiser[i], 3);
                 } catch (ScannerException e) {
                     switch (e.getDescription()) {
                         case "1":
@@ -493,34 +516,44 @@ public class Battle {
                             System.out.println("Вы ввели неверное колличесвто координат, повторите ввод");
                             error = "1";
                             break;
+                        case "6":
+                            System.out.println("Неверный формат ввода данных, повторите ввод");
+                            error = "1";
+                            break;
                         default:
                             System.out.println("Неизвестная ошибка ввода данных");
                             error = "1";
                     }
                 }
 
-                for (int j = 0; j < 10; j++)
-                    System.out.printf("  %d ", j);
-                for (int j = 0; j < showCruiser.length; j++) {
-                    System.out.println();
-                    System.out.print(j);
-                    for (int k = 0; k < showCruiser[j].length; k++) {
-                        System.out.print(showCruiser[j][k]);
+                    for (int j = 0; j < 10; j++)
+                        System.out.printf("  %d ", j);
+                    for (int j = 0; j < player.length; j++) {
+                        System.out.println();
+                        System.out.print(j);
+                        for (int k = 0; k < player[j].length; k++) {
+                            System.out.print(player[j][k]);
+                        }
                     }
-                }
+
                 System.out.println();
             } while (error != null);
         }
         System.out.println();
 
-        String[][] showDestroyer = new String[10][10];
+
         for (int i = 0; i < destroyer.length; i++) {
             do {
                 error = null;
                 try {
                     System.out.println("Введи координаты " + (i + 1) + "-го двухпалубного корабля (формат: x,y;x,y)");
                     destroyer[i] = in.nextLine();
-                    showDestroyer = setAura(player, destroyer[i], 2);
+                    Pattern pattern = Pattern.compile("^([0-9])(,)([0-9])(;)([0-9])(,)([0-9])");
+                    Matcher match = pattern.matcher(destroyer[i]);
+                    boolean found = match.matches();
+                    if(!found)
+                        throw new ScannerException("6");
+                    setAura(player, destroyer[i], 2);
                 } catch (ScannerException e) {
                     switch (e.getDescription()) {
                         case "1":
@@ -543,6 +576,10 @@ public class Battle {
                             System.out.println("Вы ввели неверное колличесвто координат, повторите ввод");
                             error = "1";
                             break;
+                        case "6":
+                            System.out.println("Неверный формат ввода данных, повторите ввод");
+                            error = "1";
+                            break;
                         default:
                             System.out.println("Неизвестная ошибка ввода данных");
                             error = "1";
@@ -551,11 +588,11 @@ public class Battle {
 
                 for (int j = 0; j < 10; j++)
                     System.out.printf("  %d ", j);
-                for (int j = 0; j < showDestroyer.length; j++) {
+                for (int j = 0; j < player.length; j++) {
                     System.out.println();
                     System.out.print(j);
-                    for (int k = 0; k < showDestroyer[j].length; k++) {
-                        System.out.print(showDestroyer[j][k]);
+                    for (int k = 0; k < player[j].length; k++) {
+                        System.out.print(player[j][k]);
                     }
                 }
                 System.out.println();
@@ -563,14 +600,20 @@ public class Battle {
         }
         System.out.println();
 
-        String[][] showBoat = new String[10][10];
+
         for (int i = 0; i < boat.length; i++) {
             do {
                 error = null;
                 try {
                     System.out.println("Введи координаты " + (i + 1) + "-го однопалубного корабля (формат: x,y)");
                     boat[i] = in.nextLine();
-                    showBoat = setAura(player, boat[i], 1);
+                    Pattern pattern = Pattern.compile("^([0-9])(,)([0-9])");
+                    Matcher match = pattern.matcher(boat[i]);
+                    boolean found = match.matches();
+                    if(!found)
+                        throw new ScannerException("6");
+
+                    setAura(player, boat[i], 1);
                 } catch (ScannerException e) {
                     switch (e.getDescription()) {
                         case "1":
@@ -593,6 +636,10 @@ public class Battle {
                             System.out.println("Вы ввели неверное колличесвто координат, повторите ввод");
                             error = "1";
                              break;
+                        case "6":
+                            System.out.println("Неверный формат ввода данных, повторите ввод");
+                            error = "1";
+                            break;
                             default:
                             System.out.println("Неизвестная ошибка ввода данных");
                             error = "1";
@@ -601,11 +648,11 @@ public class Battle {
 
                 for (int j = 0; j < 10; j++)
                     System.out.printf("  %d ", j);
-                for (int j = 0; j < showBoat.length; j++) {
+                for (int j = 0; j < player.length; j++) {
                     System.out.println();
                     System.out.print(j);
-                    for (int k = 0; k < showBoat[j].length; k++) {
-                        System.out.print(showBoat[j][k]);
+                    for (int k = 0; k < player[j].length; k++) {
+                        System.out.print(player[j][k]);
                     }
                 }
                 System.out.println();
@@ -617,19 +664,9 @@ public class Battle {
     }
 
     public static void main(String[] args) {
-        String[][] player1 = new String[10][10];
-        String[][] player2 = new String[10][10];
-        for (int i = 0; i < player1.length; i++) {
-            Arrays.fill(player1[i], " 🟨 ");
-            Arrays.fill(player2[i], " 🟨 ");
-        }
-        String[][] readyPlayer1 = addShips(player1, "Player1");
-        System.out.println("--------------------------------------------------------------");
-        System.out.println("\n||\n||\n||\n||\n||\n||\n||\n||\n||            Растояние между полями\n||" +
-                           "           что бы не подсматривали!\n||\n||\n||\n||\n||\n||\n||\n");
-        System.out.println("--------------------------------------------------------------");
-        String[][] readyPlayer2  = addShips(player2, "Player2");
-        fight(readyPlayer1, readyPlayer2);
+        Player player1 = new Player();
+        Player player2 = new Player();
+        fight(player1, player2);
 
 
     }
